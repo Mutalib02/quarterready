@@ -23,6 +23,9 @@ def load_all() -> dict:
         "messages": _read("messages.json"),
         "audit": [],
         "outbox": [],
+        "ai_log": [],
+        "sentiments": {},
+        "banners": [],
     }
 
 
@@ -40,6 +43,9 @@ def log(state, actor: str, action: str, detail: str = "") -> None:
 
 def negative_recent(state, client_id: str, days: int = 30) -> bool:
     """Seed sentiment label in the last `days` days (the agent replaces this with an LLM label)."""
+    llm = state.get("sentiments", {}).get(client_id)
+    if llm is not None:
+        return llm["label"] == "negative"
     now = rules.today()
     for m in state["messages"]:
         if m["client_id"] == client_id and m.get("sentiment_seed") == "negative":

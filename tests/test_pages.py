@@ -69,3 +69,10 @@ def test_mtd_prep_gate_and_export(tmp_path, monkeypatch):
     # red rows unresolved + no reviewer -> export locked
     assert any("Export is locked" in i.value for i in at.info)
     assert at.session_state["mtd"]["decisions"] == {}
+
+
+@pytest.mark.parametrize("page", ["pages/4_Keep_Retention.py", "pages/5_Evaluation_Safety.py",
+                                  "pages/3_MTD_Prep.py"])
+def test_remaining_pages_render(page):
+    at = AppTest.from_file(str(ROOT / page), default_timeout=60).run()
+    assert not at.exception
