@@ -68,3 +68,20 @@ def test_unrecorded_request_is_a_clean_miss():
     state["leads"][0]["message"] = "Changed text, so the request hash changes."
     with pytest.raises(cache.CacheMiss):
         agent.run_briefing(Ctx(state, recorded=True), api_call=boom)
+
+
+def test_drafts_sign_off_with_partner_first_name(replay):
+    state, _, _ = replay
+    first = state["practice"]["partner"].split()[0]
+    assert first == "Mutalib"
+    assert all(o["body"].rstrip().endswith(first) for o in state["outbox"])
+    assert not any("Demo" in o["body"] for o in state["outbox"])
+    assert len(list(cache.RECORDED_DIR.glob("[0-9a-f]*.json"))) == 39  # no stale files
+
+
+def test_local_engine_signs_off_with_partner_first_name():
+    from qr.tools import Ctx as C
+
+    state = store.load_all()
+    agent.run_briefing(C(state, local=True))
+    assert all(o["body"].rstrip().endswith("Mutalib") for o in state["outbox"])

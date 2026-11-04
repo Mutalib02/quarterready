@@ -31,7 +31,7 @@ def practice() -> dict:
     return {
         "synthetic": MARK,
         "name": "Qistas Accountants (demo)",
-        "partner": "Demo Accountant",
+        "partner": "Mutalib",
         "town": "Newcastle upon Tyne",
         "tone": "warm, plain English, no jargon, sign off with first name",
         "price_list": {

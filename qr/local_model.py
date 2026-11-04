@@ -41,7 +41,7 @@ def _first_tag(tag_text: str) -> str:
 
 def _signoff(system: str) -> str:
     m = re.search(r"Sign off as (\w+)", system)
-    return m.group(1) if m else "Demo"
+    return m.group(1) if m else "Your accountant"
 
 
 def _structured(system: str, prompt: str) -> dict:
