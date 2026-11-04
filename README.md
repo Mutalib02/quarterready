@@ -117,11 +117,11 @@ streamlit run app.py
 
 ## Team
 
-- **Mutalib** – founder and domain lead; founder of Qistas Accountants Ltd, our first customer
-- Agent and AI engineering – _add name_
-- Frontend – _add name_
-- Data, QA and DevOps – _add name_
-- Business and pitch – _add name_
+- **Mutalib** – founder, domain lead (36 months' finance experience in banking, working towards ACCA, founder of Qistas Accountants Ltd)
+- **[Name]** – AI/agent engineering
+- **[Name]** – frontend & UI
+- **[Name]** – data, QA & deployment
+- **[Name]** – business & pitch
 
 ## Licence
 
