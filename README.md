@@ -8,7 +8,7 @@ Track 2: Small Business, Big Tools · Built with Claude Code at Claude Builder C
 
 ## Live demo
 
-**LIVE_DEMO_URL**
+**https://quarterready-ne.streamlit.app**
 
 Demo uses Claude output recorded via Claude Code (no API credit today); Live mode works with a funded key.
 
