@@ -1,0 +1,6 @@
+streamlit>=1.40
+pandas
+anthropic
+pydantic>=2
+pytest
+python-dotenv
