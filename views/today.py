@@ -12,9 +12,7 @@ ui.chrome(st)
 state = store.init_state(st)
 state.setdefault("banners", [])
 
-st.title("QuarterReady – Today")
-st.caption(f"{store.BANNER} · {state['practice']['name']} · today is "
-           f"{rules.fmt_date(rules.today())} · nothing is ever sent or filed with HMRC")
+st.title("Today")
 
 # ----------------------------------------------------------------- KPI strip
 nd = rules.next_deadline()
@@ -26,6 +24,7 @@ k1.metric("New leads", len(new_leads))
 k2.metric(f"{nd['label']} due {rules.fmt_date(nd['due'])}", f"{nd['days_left']} days")
 k3.metric("At-risk clients", len(at_risk))
 k4.metric("Awaiting approval", len(pending))
+st.caption(f"today is {rules.fmt_date(rules.today())} · nothing is ever sent or filed with HMRC")
 
 # ------------------------------------------------------------ briefing control
 has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))

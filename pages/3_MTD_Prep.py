@@ -12,8 +12,8 @@ from qr.tools import Ctx  # noqa: E402
 ui.chrome(st)
 state = store.init_state(st)
 
-st.title("MTD Prep – quarterly bank transactions")
-st.caption(f"{store.BANNER} · The AI suggests; you review. Nothing is submitted to HMRC.")
+st.title("MTD Prep")
+st.caption("The AI suggests; you review. Nothing is submitted to HMRC.")
 
 ICON = {"green": "🟢", "amber": "🟠", "red": "🔴"}
 DECISIONS = ["Pending", "Accept", "Override", "Ask client"]

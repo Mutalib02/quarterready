@@ -7,7 +7,7 @@ ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Clients")
-st.caption(f"{store.BANNER} · MTD deadlines, records and onboarding")
+st.caption("MTD deadlines, records and onboarding")
 
 nd = rules.next_deadline()
 st.markdown(f"**Next deadline:** {nd['label']} update for {nd['tax_year']} due "

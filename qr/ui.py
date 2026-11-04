@@ -33,7 +33,7 @@ def pick_mode(st, key: str = "mode") -> Mode:
     has_recorded = any(cache.RECORDED_DIR.glob("*.json"))
     has_cache = any(cache.CACHE_DIR.glob("*.json"))
     options = [LIVE, RECORDED, OFFLINE, LOCAL]
-    default = (LIVE if has_key else RECORDED if has_recorded else OFFLINE if has_cache
+    default = (RECORDED if has_recorded else LIVE if has_key else OFFLINE if has_cache
                else LOCAL)
     mode = st.radio("Engine", options, index=options.index(default), horizontal=True, key=key)
     if mode == LIVE and not has_key:

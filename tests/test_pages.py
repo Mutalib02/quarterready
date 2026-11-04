@@ -31,8 +31,12 @@ def test_today_briefing_and_approval_queue(tmp_path, monkeypatch):
     monkeypatch.setattr(agent, "_anthropic_call", fake_api)
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
 
+    from qr import ui
+
     at = AppTest.from_file(str(ROOT / "views/today.py"), default_timeout=60).run()
     assert not at.exception
+    assert at.radio[0].value == ui.RECORDED  # recorded wins even when a key is set
+    at.radio[0].set_value(ui.LIVE).run()  # this test exercises the live path with a fake API
     next(b for b in at.button if "Run morning briefing" in b.label).click().run()
     assert not at.exception
     assert any("Reply to" in m.value for m in at.markdown)
@@ -132,3 +136,14 @@ def test_brand_bar_and_pills_render():
     at = AppTest.from_file(str(ROOT / "pages/2_Clients.py"), default_timeout=60).run()
     assert any("QuarterReady" in m.value and "SYNTHETIC – NOT REAL DATA" in m.value
                for m in at.markdown)
+
+
+def test_headings_and_single_synthetic_notice(monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
+    at = AppTest.from_file(str(ROOT / "views/today.py"), default_timeout=60).run()
+    assert [t.value for t in at.title] == ["Today"]
+    notice = "SYNTHETIC – NOT REAL DATA"
+    assert sum(notice in m.value for m in at.markdown) == 1  # the brand-bar pill only
+    assert not any(notice in c.value for c in at.caption)
+    assert any(c.value.startswith("today is 04/11/2026 · nothing is ever sent or filed with HMRC")
+               for c in at.caption)

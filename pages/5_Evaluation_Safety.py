@@ -7,7 +7,7 @@ ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Evaluation & Safety")
-st.caption(f"{store.BANNER} · Measured against the founder's own labels. Small samples: treat "
+st.caption("Measured against the founder's own labels. Small samples: treat "
            "as indicative, not proof.")
 
 # ---------------------------------------------------------- categorisation

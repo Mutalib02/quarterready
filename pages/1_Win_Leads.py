@@ -6,8 +6,8 @@ from qr import rules, store, ui
 ui.chrome(st)
 state = store.init_state(st)
 
-st.title("Win – Leads")
-st.caption(f"{store.BANNER} · Pipeline: New → Replied → Quoted → Won/Lost")
+st.title("Win Leads")
+st.caption("Pipeline: New → Replied → Quoted → Won/Lost")
 
 COHORT = {"2026": "Mandated now", "2027": "Apr 2027 wave", "2028": "Apr 2028 wave",
           "not_in_scope": "Not in scope"}

@@ -12,8 +12,8 @@ from qr.tools import Ctx  # noqa: E402
 ui.chrome(st)
 state = store.init_state(st)
 
-st.title("Keep – Retention")
-st.caption(f"{store.BANNER} · Health scores use a transparent formula; only the sentiment label "
+st.title("Keep Retention")
+st.caption("Health scores use a transparent formula; only the sentiment label "
            "comes from the AI.")
 
 BAND_ICON = {"Healthy": "🟢", "Watch": "🟠", "At risk": "🔴"}
