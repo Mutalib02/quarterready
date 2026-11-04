@@ -23,6 +23,11 @@ else:
                    "written by the same team that wrote the synthetic data, so they are "
                    "optimistic and will not generalise to real bank statements. Re-run with "
                    "Claude to get the honest number.")
+    elif "recorded via Claude Code" in engine:
+        st.info("These scores measure Claude output that I (Claude, via Claude Code) wrote today, "
+                "answering the app's requests one by one. It is real model judgement but not a "
+                "live API run, and the same session built the synthetic data, so it is not a "
+                "blind test. Live API mode needs a funded key.")
     m = evaluate.categorisation_metrics(mtd["df"])
     if m["n"] == 0:
         st.warning("No overlap with the labelled set (it covers Dave's CSV only).")

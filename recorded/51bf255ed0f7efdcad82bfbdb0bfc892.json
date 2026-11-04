@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"priority\": \"Low\", \"fit_reason\": \"Freelancer on about £14k: below the £20k MTD threshold, so unlikely to need a full service.\", \"urgency_reason\": \"None; may only need simple year-end help.\", \"suggested_services\": [\"mtd_sole_trader\"]}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"subject\": \"Getting you ready for the 7 November deadline\", \"body\": \"Hi [FIRST_1],\\n\\nThanks for getting in touch, and please don't panic – this can be sorted. As you're over £50k you've been in Making Tax Digital since April, so your first update is still outstanding and the second is due on 07/11/2026. The first job is to see what records you have and get both quarters in order.\\n\\nI can take you on this week. Could we have a free 15-minute call tomorrow or Friday to go through what you've got and what I'd need from you?\\n\\nKind regards,\\nDemo\"}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

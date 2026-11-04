@@ -21,7 +21,8 @@ Licence: MIT
 | Engine | Needs | Notes |
 |---|---|---|
 | Live | `ANTHROPIC_API_KEY` + API credit | Cache first, calls Claude on a miss; every response is saved to `cache/` |
+| Recorded | committed `recorded/*.json` | Claude output recorded via Claude Code today (no funded key). Replays one full briefing on the standard demo data; see `recorded/README.md` for how honest that is |
 | Offline | committed `cache/*.json` | Replays recorded Claude responses |
 | Local | nothing | Rule-based stand-in (`qr/local_model.py`), **not Claude**. Same tools, compliance gates and approval queue; keyword rules and templates. Never writes `cache/`. |
 
-`py record_briefing.py [--offline | --local]` runs the morning briefing from the command line.
+`py record_briefing.py [--recorded | --offline | --local]` runs the morning briefing from the command line.

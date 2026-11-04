@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"subject\": \"Is Making Tax Digital for you in April 2027?\", \"body\": \"Hi [FIRST_5],\\n\\nThanks for your message. At roughly £33k you are close to the £30k line for April 2027, so it looks likely, but I'd like to check your exact figures before saying for sure. Could you tell me roughly what you turned over, and whether you have any other income?\\n\\nI'm also happy to talk it through on a free 15-minute call.\\n\\nKind regards,\\nDemo\"}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

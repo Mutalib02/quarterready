@@ -85,9 +85,33 @@ def test_today_briefing_with_local_engine(tmp_path, monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
     at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
+    at.radio[0].set_value(ui.LOCAL).run()  # recorded/ may exist, so pick Local explicitly
     assert not at.exception and any("not Claude" in i.value for i in at.info)
     next(b for b in at.button if "Run morning briefing" in b.label).click().run()
     assert not at.exception
     assert len(at.session_state["outbox"]) == 9
     assert any("Call Priya" in m.value for m in at.markdown)
     assert not list(tmp_path.glob("*.json"))
+
+
+def test_recorded_engine_is_default_and_labelled(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
+    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
+    assert not at.exception
+    assert at.radio[0].value == "Recorded by Claude (via Claude Code)"
+    assert any("Claude output recorded via Claude Code today – live API mode needs a funded key"
+               in s.value for s in at.success)
+    next(b for b in at.button if "Run morning briefing" in b.label).click().run()
+    assert not at.exception and len(at.session_state["outbox"]) == 9
+    assert any("recorded via Claude Code" in c.value for c in at.caption)
+
+
+def test_mtd_prep_and_evaluation_on_recorded_engine(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
+    at = AppTest.from_file(str(ROOT / "pages/3_MTD_Prep.py"), default_timeout=90).run()
+    next(b for b in at.button if b.label == "Categorise transactions").click().run()
+    assert not at.exception
+    assert "recorded via Claude Code" in at.session_state["mtd"]["engine"]
+    assert int((at.session_state["mtd"]["df"].colour == "red").sum()) == 40

@@ -1,0 +1,67 @@
+{
+ "content": [
+  {
+   "type": "tool_use",
+   "id": "toolu_rec_cat_6b9a56",
+   "name": "record_categorisations",
+   "input": {
+    "categorisations": [
+     {
+      "row_id": 301,
+      "income_or_expense": "expense",
+      "sa103_box": 17,
+      "category_name": "Materials and tools",
+      "allowable": "yes",
+      "business_pct": 100,
+      "confidence": 0.92,
+      "reason": "Electrical materials and tools for jobs.",
+      "needs_query": false,
+      "client_question": ""
+     },
+     {
+      "row_id": 302,
+      "income_or_expense": "income",
+      "sa103_box": null,
+      "category_name": "Customer income",
+      "allowable": "yes",
+      "business_pct": 100,
+      "confidence": 0.97,
+      "reason": "Payment from a customer; counts towards turnover.",
+      "needs_query": false,
+      "client_question": ""
+     },
+     {
+      "row_id": 303,
+      "income_or_expense": "not_business",
+      "sa103_box": null,
+      "category_name": "Food and drink",
+      "allowable": "no",
+      "business_pct": 0,
+      "confidence": 0.7,
+      "reason": "Everyday food is a personal cost, not allowable.",
+      "needs_query": false,
+      "client_question": ""
+     },
+     {
+      "row_id": 304,
+      "income_or_expense": "expense",
+      "sa103_box": 20,
+      "category_name": "Fuel",
+      "allowable": "partial",
+      "business_pct": 80,
+      "confidence": 0.7,
+      "reason": "Van fuel is allowable for business miles; private share unknown.",
+      "needs_query": false,
+      "client_question": ""
+     }
+    ]
+   }
+  }
+ ],
+ "stop_reason": "tool_use",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

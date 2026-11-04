@@ -29,8 +29,8 @@ k4.metric("Awaiting approval", len(pending))
 
 # ------------------------------------------------------------ briefing control
 has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
-offline, local = ui.pick_mode(st)
-engine_ready = st.session_state["_engine_ready"]
+mode = ui.pick_mode(st)
+engine_ready = mode.ready
 
 for b in state["banners"]:
     st.warning(b)
@@ -41,7 +41,7 @@ if st.button("▶ Run morning briefing", type="primary", disabled=not engine_rea
     for k in ("leads", "clients", "messages", "outbox", "audit"):
         state[k] = fresh[k]
     state["ai_log"], state["sentiments"], state["banners"] = [], {}, []
-    ctx = Ctx(state, offline=offline, local=local)
+    ctx = Ctx(state, **mode.kwargs)
     with st.status("Agent is working…", expanded=True) as status:
         def show(step: dict) -> None:
             args = ", ".join(f"{k}={v!r}" for k, v in step["args"].items() if k != "body")

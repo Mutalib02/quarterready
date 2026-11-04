@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"priority\": \"High\", \"fit_reason\": \"Plumber on about £68k: mandated since April, missed Q1, and the Q2 update is due in three days.\", \"urgency_reason\": \"Q2 due 07/11/2026 and Q1 still outstanding; wants to start this week.\", \"suggested_services\": [\"mtd_sole_trader\"]}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

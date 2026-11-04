@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 
 CACHE_DIR = Path(__file__).resolve().parents[1] / "cache"
+RECORDED_DIR = Path(__file__).resolve().parents[1] / "recorded"
 PROMPT_VERSION = "v1"
 
 
@@ -23,8 +24,8 @@ def make_key(model: str, payload: dict, version: str = PROMPT_VERSION) -> str:
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()[:32]
 
 
-def get(key: str) -> dict | None:
-    path = CACHE_DIR / f"{key}.json"
+def get(key: str, directory: Path | None = None) -> dict | None:
+    path = (directory or CACHE_DIR) / f"{key}.json"
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
     return None

@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"priority\": \"Medium\", \"fit_reason\": \"Gardener on about £38k: joins MTD in April 2027, so no deadline yet but good to onboard early.\", \"urgency_reason\": \"No immediate deadline; asking about preparing before April 2027.\", \"suggested_services\": [\"mtd_sole_trader\"]}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

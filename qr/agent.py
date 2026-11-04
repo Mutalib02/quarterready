@@ -67,6 +67,13 @@ def make_complete(ctx: Ctx, model: str = MODEL, api_call: Callable | None = None
             ctx.usage["local"] = ctx.usage.get("local", 0) + 1
             return local_api(model, system, messages, tools, max_tokens, tool_choice)
         key = cache.make_key(model, payload)
+        if ctx.recorded:  # replay of Claude output recorded via Claude Code; never calls the API
+            hit = cache.get(key, cache.RECORDED_DIR)
+            if hit is None:
+                raise cache.CacheMiss(f"Not in the recorded set (key {key}). Recorded output only "
+                                      f"covers the standard demo data and prompts.")
+            ctx.usage["recorded"] = ctx.usage.get("recorded", 0) + 1
+            return hit
         hit = cache.get(key)
         if hit is not None:
             ctx.usage["cached"] += 1
@@ -112,11 +119,11 @@ def _anthropic_call(model, system, messages, tools, max_tokens, tool_choice=None
 
 # ---------------------------------------------------------------- the loop
 def run_briefing(ctx: Ctx, on_step: Callable[[dict], None] | None = None,
-                 api_call: Callable | None = None) -> dict:
+                 api_call: Callable | None = None, complete: Callable | None = None) -> dict:
     """Run the morning briefing. Calls on_step(step) for every tool call as it happens.
     Returns {"summary": str, "steps": [...], "usage": {...}}."""
     on_step = on_step or (lambda s: None)
-    ctx.complete = make_complete(ctx, api_call=api_call)
+    ctx.complete = complete or make_complete(ctx, api_call=api_call)
     messages: list[dict] = [{"role": "user", "content":
                              "Run this morning's briefing for the practice."}]
     steps: list[dict] = []
@@ -158,9 +165,20 @@ def run_briefing(ctx: Ctx, on_step: Callable[[dict], None] | None = None,
               f"{len(steps)} tool calls, {ctx.usage['calls']} API calls, "
               f"{ctx.usage['cached']} cached")
     out = {"summary": summary, "steps": steps, "usage": dict(ctx.usage),
-           "engine": "Local rule-based engine (not Claude)" if ctx.local else MODEL}
+           "engine": engine_label(ctx)}
     ctx.state["briefing"] = out
     return out
+
+
+RECORDED_LABEL = "Claude output recorded via Claude Code today – live API mode needs a funded key"
+
+
+def engine_label(ctx: Ctx) -> str:
+    if ctx.local:
+        return "Local rule-based engine (not Claude)"
+    if ctx.recorded:
+        return RECORDED_LABEL
+    return MODEL
 
 
 def _last_text(messages: list) -> str:

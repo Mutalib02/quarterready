@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"priority\": \"Medium\", \"fit_reason\": \"Mobile hairdresser on about £44k: joins MTD in April 2027 and already wants to prepare.\", \"urgency_reason\": \"No immediate deadline; warm lead from the expo.\", \"suggested_services\": [\"mtd_sole_trader\"]}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

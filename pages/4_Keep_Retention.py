@@ -61,14 +61,14 @@ with right:
 # ------------------------------------------------------------- retention draft
 st.subheader("Draft a retention message")
 has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
-offline, local = ui.pick_mode(st)
-engine_ready = st.session_state["_engine_ready"]
+mode = ui.pick_mode(st)
+engine_ready = mode.ready
 pick = st.selectbox("Client", [f"{c['id']} – {c['name']}" for c in state["clients"]],
                     index=next((i for i, c in enumerate(state["clients"])
                                 if health[c["id"]]["band"] == "At risk"), 0))
 cid = pick.split(" – ")[0]
 if st.button("Draft retention message", disabled=not engine_ready):
-    ctx = Ctx(state, offline=offline, local=local)
+    ctx = Ctx(state, **mode.kwargs)
     ctx.complete = agent.make_complete(ctx)
     try:
         with st.spinner("Drafting…"):

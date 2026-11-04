@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"subject\": \"Your records for the 07/11/2026 update\", \"body\": \"Hi [FIRST_14],\\n\\nI hope you're well. We're getting close to the quarterly update due on 07/11/2026, and I'm still missing some records for 6 July to 5 October. I know you've sent us a lot already, so if any of these are with us, just tell me which and I'll find them.\\n\\nWhat I need:\\n• Bank statements for 6 July – 5 October\\n• Rent invoices or statements from your agent\\n• Receipts for expenses over £25\\n• Your mileage log, if you have one\\n\\nIf anything is hard to find, tell me and we'll work it out together.\\n\\nThanks,\\nDemo\"}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

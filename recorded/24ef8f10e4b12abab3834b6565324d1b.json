@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"wording\": \"Your fixed £45 a month covers all four quarterly Making Tax Digital updates, your year-end tax return, chasing and checking your records, and a named accountant to call. The price stays the same for the work listed.\"}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

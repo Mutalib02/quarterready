@@ -31,8 +31,8 @@ client = next(c for c in state["clients"] if c["id"] == "C001")
 st.markdown("**Source:** Dave Hartley's Q2 2026/27 bank CSV (synthetic) by default, or upload "
             "another CSV with Date, Description, Amount columns.")
 upload = st.file_uploader("Bank CSV", type="csv")
-offline, local = ui.pick_mode(st)
-engine_ready = st.session_state["_engine_ready"]
+mode = ui.pick_mode(st)
+engine_ready = mode.ready
 source_name = upload.name if upload else "dave_q2_2026.csv"
 
 if st.button("Categorise transactions", type="primary", disabled=not engine_ready):
@@ -41,13 +41,13 @@ if st.button("Categorise transactions", type="primary", disabled=not engine_read
     except Exception as exc:  # noqa: BLE001
         st.error(f"Could not read that CSV: {exc}")
         st.stop()
-    ctx = Ctx(state, offline=offline, local=local)
+    ctx = Ctx(state, **mode.kwargs)
     ctx.complete = agent.make_complete(ctx)
     with st.spinner(f"Categorising {len(raw)} rows in batches of {cz.BATCH}…"):
         try:
             df = cz.categorise(raw, ctx.complete, state["ai_log"])
             state["mtd"] = {"source": source_name, "df": df, "decisions": {},
-                            "engine": "Local rule-based engine (not Claude)" if local else agent.MODEL}
+                            "engine": agent.engine_label(ctx)}
             store.log(state, "agent", "categorised", f"{source_name}: {len(df)} rows")
         except cache.CacheMiss as exc:
             st.error(f"Offline: {exc} Run once in Live mode to record the cache.")

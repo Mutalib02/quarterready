@@ -1,0 +1,14 @@
+{
+ "content": [
+  {
+   "type": "text",
+   "text": "{\"wording\": \"A fixed £40 a month for landlords with one or two properties, covering quarterly Making Tax Digital updates, your year-end return and records chasing. With three properties we would confirm a fixed fee with you on our call before you commit.\"}"
+  }
+ ],
+ "stop_reason": "end_turn",
+ "recorded_by": "Claude (claude-sonnet-5-5) via Claude Code, 2026-11-04",
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

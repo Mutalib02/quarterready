@@ -3,6 +3,7 @@
 Usage:  py record_briefing.py          (needs ANTHROPIC_API_KEY in .env)
         py record_briefing.py --offline   (replay from cache only)
         py record_briefing.py --local     (rule-based engine, no API; writes no cache)
+        py record_briefing.py --recorded  (replay Claude output recorded via Claude Code)
 """
 import sys
 
@@ -16,7 +17,8 @@ from qr.tools import Ctx  # noqa: E402
 
 def main() -> None:
     state = store.load_all()
-    ctx = Ctx(state, offline="--offline" in sys.argv, local="--local" in sys.argv)
+    ctx = Ctx(state, offline="--offline" in sys.argv, local="--local" in sys.argv,
+               recorded="--recorded" in sys.argv)
     out = agent.run_briefing(
         ctx, on_step=lambda s: print(f"[{s['turn']}] {s['tool']} -> {s['result']}"))
     print("\n" + out["summary"])
