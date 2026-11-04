@@ -7,7 +7,7 @@ import re
 _PATTERNS = [
     (re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+"), "[EMAIL]"),
     (re.compile(r"\b\d{2}-\d{2}-\d{2}\b"), "[SORT_CODE]"),
-    (re.compile(r"\b\d{8}\b"), "[ACCOUNT_NO]"),
+    (re.compile(r"(?i)((?:account|acc|a/c)(?: number| no\.?)?[:\s#]*)\d{8}\b"), r"\1[ACCOUNT_NO]"),
     (re.compile(r"(?<!\w)(?:\+44\s?|0)\d{3,4}[\s-]?\d{3}[\s-]?\d{3,4}\b"), "[PHONE]"),
 ]
 
@@ -38,7 +38,7 @@ class Redactor:
     def redact(self, text: str) -> str:
         text = re.sub(r"\s*\(fictional\)", "", text or "")
         for real, tag in sorted(self.mapping.items(), key=lambda kv: -len(kv[0])):
-            text = re.sub(re.escape(real), tag, text)
+            text = re.sub(r"(?<!\w)" + re.escape(real) + r"(?!\w)", tag, text)
         for pat, tag in _PATTERNS:
             text = pat.sub(tag, text)
         return text

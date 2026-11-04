@@ -142,7 +142,7 @@ def _chase(p: str, who: str, sign: str) -> dict:
 
 def _retention(p: str, who: str, sign: str) -> dict:
     latest = (re.search(r'latest message: "(.*?)"\. Issues', p, re.S) or [None, ""])[1]
-    issues = (re.search(r"Issues on our side: (.*?)\. Acknowledge", p, re.S) or [None, ""])[1]
+    issues = (re.search(r"Account health flags: (.*?)\. Some flags", p, re.S) or [None, ""])[1]
     return {"subject": "I'd like to put this right",
             "body": f"Hi {who},\n\nThank you for being straight with me"
                     + (f" – “{latest[:100]}”" if latest else "")

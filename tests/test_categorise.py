@@ -127,3 +127,13 @@ def test_summary_and_export():
     text = cz.export_csv(s, "A. Accountant", "Dave")
     assert "Reviewed and approved by A. Accountant – not submitted to HMRC" in text
     assert "SYNTHETIC" in text
+
+
+def test_refund_reduces_expense_total():
+    df = pd.DataFrame([
+        {"row_id": 1, "Date": "d", "Description": "buy", "Amount": -100.0,
+         "income_or_expense": "expense", "sa103_box": 17, "allowable": "yes", "business_pct": 100},
+        {"row_id": 2, "Date": "d", "Description": "refund", "Amount": 40.0,
+         "income_or_expense": "expense", "sa103_box": 17, "allowable": "yes", "business_pct": 100},
+    ])
+    assert cz.summarise(df, {})["boxes"] == {17: 60.0}

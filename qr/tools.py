@@ -26,6 +26,7 @@ class Ctx:
     complete: Callable | None = None
     offline: bool = False
     local: bool = False  # use the rule-based local engine instead of Claude
+    recorded: bool = False  # replay Claude output recorded via Claude Code (recorded/)
     redactor: Redactor = field(default_factory=Redactor)
     banners: list[str] = field(default_factory=list)
     usage: dict = field(default_factory=lambda: {"input": 0, "output": 0, "calls": 0, "cached": 0})
@@ -269,9 +270,9 @@ def draft_retention_message(ctx: Ctx, client_id: str) -> dict:
     h = rules.health_score(c, ctx.state["sentiments"].get(client_id, {}).get("label") == "negative")
     why = "; ".join(b["reason"] for b in h["breakdown"]) or "no issues"
     prompt = (f"Write an empathetic email to {c['name']} who may be thinking of leaving. Their "
-              f"latest message: \"{latest}\". Issues on our side: {why}. Acknowledge the problem "
-              f"specifically, apologise once, say what we will do, and offer a call. Do NOT offer "
-              f"any discount.")
+              f"latest message: \"{latest}\". Account health flags: {why}. Some flags may be down "
+              f"to the client, so never blame them. Acknowledge their complaint specifically, "
+              f"apologise once, say what we will do, and offer a call. Do NOT offer any discount.")
     d = ctx.ask_json("draft_retention_message", "You draft client retention emails for an "
                      "accountant to approve. " + _tone(ctx), prompt, Draft)
     return {"client_id": client_id, "subject": d.subject, "body": d.body}

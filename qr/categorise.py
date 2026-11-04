@@ -108,6 +108,8 @@ def load_transactions(source) -> pd.DataFrame:
 def _clean_description(desc: str, redactor: Redactor) -> str:
     """Hide payer names (people and small firms) and any account numbers/emails."""
     desc = re.sub(r"(?i)^FASTER PAYMENT FROM\s+.+$", "FASTER PAYMENT FROM [PAYER]", str(desc))
+    desc = re.sub(r"\d{8}", "[ACCOUNT_NO]", desc)  # bare 8-digit numbers in bank text
+    desc = re.sub(r"\b\d{8}\b", "[ACCOUNT_NO]", desc)  # bare 8-digit numbers in bank text
     return redactor.redact(desc)
 
 
@@ -215,8 +217,11 @@ def summarise(df: pd.DataFrame, decisions: dict[int, dict]) -> dict:
             continue
         kind = r.income_or_expense
         box = d.get("box", r.sa103_box)
+        box = None if box is None or pd.isna(box) else int(box)
         allowable = d.get("allowable", r.allowable)
         amt = abs(float(r.Amount))
+        if kind == "expense":
+            amt = -float(r.Amount)  # a positive 'expense' row is a refund and reduces the cost
         if kind == "income":
             income += float(r.Amount)
         elif kind == "not_business" or (box is None and allowable == "no"):
