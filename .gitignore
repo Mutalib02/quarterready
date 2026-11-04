@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
-cache/*.json
 .streamlit/secrets.toml
+*.log
+.DS_Store
