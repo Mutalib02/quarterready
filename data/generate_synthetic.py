@@ -230,9 +230,11 @@ def build_transactions(rng: random.Random) -> list[dict]:
         rows.append({"date": d, "desc": desc, "amount": round(amt, 2), "truth": truth,
                      "trap": trap})
 
+    monthly_days = {0: date(2026, 7, 13), 1: date(2026, 8, 13), 2: date(2026, 9, 14)}
     for tmpl, (lo, hi), count, truth, trap in tx_templates():
+        recurring = lo == hi and count <= 3  # fixed monthly direct debits: one per month
         for k in range(count):
-            d = rng.choice(weekdays)
+            d = monthly_days[k] if recurring else rng.choice(weekdays)
             ds = d.strftime("%d/%m")
             desc = tmpl.format(
                 d=ds, site=rng.choice(SITES), cust=rng.choice(CUSTOMERS),

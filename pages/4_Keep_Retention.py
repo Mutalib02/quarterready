@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from qr import agent, cache, rules, store, tools  # noqa: E402
+from qr import agent, cache, rules, store, tools, ui  # noqa: E402
 from qr.tools import Ctx  # noqa: E402
 
 st.set_page_config(page_title="Keep – Retention", page_icon="🤝", layout="wide")
@@ -61,14 +61,14 @@ with right:
 # ------------------------------------------------------------- retention draft
 st.subheader("Draft a retention message")
 has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
-offline = st.radio("Mode", ["Live (cache first)", "Offline (replay cache)"],
-                   index=0 if has_key else 1, horizontal=True).startswith("Offline")
+offline, local = ui.pick_mode(st)
+engine_ready = st.session_state["_engine_ready"]
 pick = st.selectbox("Client", [f"{c['id']} – {c['name']}" for c in state["clients"]],
                     index=next((i for i, c in enumerate(state["clients"])
                                 if health[c["id"]]["band"] == "At risk"), 0))
 cid = pick.split(" – ")[0]
-if st.button("Draft retention message", disabled=(not offline and not has_key)):
-    ctx = Ctx(state, offline=offline)
+if st.button("Draft retention message", disabled=not engine_ready):
+    ctx = Ctx(state, offline=offline, local=local)
     ctx.complete = agent.make_complete(ctx)
     try:
         with st.spinner("Drafting…"):

@@ -61,7 +61,7 @@ def test_mtd_prep_gate_and_export(tmp_path, monkeypatch):
     _fake_categorise_env(tmp_path, monkeypatch)
     at = AppTest.from_file(str(ROOT / "pages/3_MTD_Prep.py"), default_timeout=90).run()
     assert not at.exception
-    next(b for b in at.button if b.label == "Categorise with Claude").click().run()
+    next(b for b in at.button if b.label == "Categorise transactions").click().run()
     assert not at.exception
     df = at.session_state["mtd"]["df"]
     red = int((df.colour == "red").sum())
@@ -76,3 +76,18 @@ def test_mtd_prep_gate_and_export(tmp_path, monkeypatch):
 def test_remaining_pages_render(page):
     at = AppTest.from_file(str(ROOT / page), default_timeout=60).run()
     assert not at.exception
+
+
+def test_today_briefing_with_local_engine(tmp_path, monkeypatch):
+    from qr import cache, ui
+
+    monkeypatch.setattr(cache, "CACHE_DIR", tmp_path)
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
+    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
+    assert not at.exception and any("not Claude" in i.value for i in at.info)
+    next(b for b in at.button if "Run morning briefing" in b.label).click().run()
+    assert not at.exception
+    assert len(at.session_state["outbox"]) == 9
+    assert any("Call Priya" in m.value for m in at.markdown)
+    assert not list(tmp_path.glob("*.json"))

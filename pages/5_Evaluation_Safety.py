@@ -14,8 +14,15 @@ st.caption(f"{store.BANNER} · Measured against the founder's own labels. Small 
 st.subheader("Categorisation accuracy")
 mtd = state.get("mtd")
 if not mtd:
-    st.info("Run **Categorise with Claude** on the MTD Prep page first.")
+    st.info("Run **Categorise transactions** on the MTD Prep page first.")
 else:
+    engine = mtd.get("engine", "unknown")
+    st.write(f"Engine: **{engine}**")
+    if "Local" in engine:
+        st.warning("These scores measure the local keyword engine, not Claude. Its rules were "
+                   "written by the same team that wrote the synthetic data, so they are "
+                   "optimistic and will not generalise to real bank statements. Re-run with "
+                   "Claude to get the honest number.")
     m = evaluate.categorisation_metrics(mtd["df"])
     if m["n"] == 0:
         st.warning("No overlap with the labelled set (it covers Dave's CSV only).")

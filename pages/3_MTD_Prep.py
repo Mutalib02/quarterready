@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from qr import agent, cache, categorise as cz, categories, rules, store  # noqa: E402
+from qr import agent, cache, categorise as cz, categories, rules, store, ui  # noqa: E402
 from qr.tools import Ctx  # noqa: E402
 
 st.set_page_config(page_title="MTD Prep", page_icon="🧾", layout="wide")
@@ -31,23 +31,23 @@ client = next(c for c in state["clients"] if c["id"] == "C001")
 st.markdown("**Source:** Dave Hartley's Q2 2026/27 bank CSV (synthetic) by default, or upload "
             "another CSV with Date, Description, Amount columns.")
 upload = st.file_uploader("Bank CSV", type="csv")
-mode = st.radio("Mode", ["Live (cache first, Claude on a miss)", "Offline (replay cache)"],
-                index=0 if has_key else 1, horizontal=True)
-offline = mode.startswith("Offline")
+offline, local = ui.pick_mode(st)
+engine_ready = st.session_state["_engine_ready"]
 source_name = upload.name if upload else "dave_q2_2026.csv"
 
-if st.button("Categorise with Claude", type="primary", disabled=(not offline and not has_key)):
+if st.button("Categorise transactions", type="primary", disabled=not engine_ready):
     try:
         raw = cz.load_transactions(upload if upload else cz.DAVE_CSV)
     except Exception as exc:  # noqa: BLE001
         st.error(f"Could not read that CSV: {exc}")
         st.stop()
-    ctx = Ctx(state, offline=offline)
+    ctx = Ctx(state, offline=offline, local=local)
     ctx.complete = agent.make_complete(ctx)
     with st.spinner(f"Categorising {len(raw)} rows in batches of {cz.BATCH}…"):
         try:
             df = cz.categorise(raw, ctx.complete, state["ai_log"])
-            state["mtd"] = {"source": source_name, "df": df, "decisions": {}}
+            state["mtd"] = {"source": source_name, "df": df, "decisions": {},
+                            "engine": "Local rule-based engine (not Claude)" if local else agent.MODEL}
             store.log(state, "agent", "categorised", f"{source_name}: {len(df)} rows")
         except cache.CacheMiss as exc:
             st.error(f"Offline: {exc} Run once in Live mode to record the cache.")
@@ -59,9 +59,10 @@ if not mtd and state.get("categorised", {}).get("C001"):  # produced by the morn
     mtd = state["mtd"] = {"source": "dave_q2_2026.csv (from briefing)",
                           "df": pd.DataFrame(state["categorised"]["C001"]), "decisions": {}}
 if not mtd:
-    st.info("Press **Categorise with Claude** to start.")
+    st.info("Press **Categorise transactions** to start.")
     st.stop()
 
+st.caption(f"Categorised by: {mtd.get('engine', 'unknown engine')}")
 df: pd.DataFrame = mtd["df"]
 decisions: dict = mtd["decisions"]
 

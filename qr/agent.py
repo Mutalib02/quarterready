@@ -62,6 +62,10 @@ def make_complete(ctx: Ctx, model: str = MODEL, api_call: Callable | None = None
                    "max_tokens": max_tokens}
         if tool_choice:
             payload["tool_choice"] = tool_choice
+        if ctx.local:  # local rule-based engine: never cached, never calls the API
+            from qr.local_model import local_api
+            ctx.usage["local"] = ctx.usage.get("local", 0) + 1
+            return local_api(model, system, messages, tools, max_tokens, tool_choice)
         key = cache.make_key(model, payload)
         hit = cache.get(key)
         if hit is not None:
@@ -153,7 +157,8 @@ def run_briefing(ctx: Ctx, on_step: Callable[[dict], None] | None = None,
     store.log(ctx.state, "agent", "morning_briefing",
               f"{len(steps)} tool calls, {ctx.usage['calls']} API calls, "
               f"{ctx.usage['cached']} cached")
-    out = {"summary": summary, "steps": steps, "usage": dict(ctx.usage)}
+    out = {"summary": summary, "steps": steps, "usage": dict(ctx.usage),
+           "engine": "Local rule-based engine (not Claude)" if ctx.local else MODEL}
     ctx.state["briefing"] = out
     return out
 

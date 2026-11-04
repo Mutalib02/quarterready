@@ -25,6 +25,7 @@ class Ctx:
     state: dict
     complete: Callable | None = None
     offline: bool = False
+    local: bool = False  # use the rule-based local engine instead of Claude
     redactor: Redactor = field(default_factory=Redactor)
     banners: list[str] = field(default_factory=list)
     usage: dict = field(default_factory=lambda: {"input": 0, "output": 0, "calls": 0, "cached": 0})
@@ -182,8 +183,11 @@ def list_deadlines(ctx: Ctx, days_ahead: int = 14) -> dict:
         if c["mtd_cohort"] != "2026" or not rules.aml_gate(c):
             continue
         qs = c["quarter_status"]
+        from qr import categorise  # local import (categorise depends on agent -> tools)
+        csv = categorise.DATA / "transactions" / f"{c['name'].split()[0].lower()}_q2_2026.csv"
         out.append({
             "client_id": c["id"], "name": c["name"], "quarter": nd["label"],
+            "has_bank_csv": csv.exists(),
             "due": nd["due"].isoformat(), "days_left": nd["days_left"],
             "records_received": qs["records_received"],
             "records_days_late": rules.records_days_late(qs), "queries_open": qs["queries_open"],

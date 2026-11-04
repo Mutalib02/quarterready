@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from qr import agent, cache, rules, store  # noqa: E402
+from qr import agent, cache, rules, store, ui  # noqa: E402
 from qr.tools import Ctx  # noqa: E402
 
 st.set_page_config(page_title="QuarterReady", page_icon="📅", layout="wide")
@@ -29,22 +29,19 @@ k4.metric("Awaiting approval", len(pending))
 
 # ------------------------------------------------------------ briefing control
 has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
-mode = st.radio("Mode", ["Live (uses cache first, calls Claude on a miss)", "Offline (replay cache)"],
-                index=0 if has_key else 1, horizontal=True)
-offline = mode.startswith("Offline")
-if not offline and not has_key:
-    st.warning("No ANTHROPIC_API_KEY found. Add one to .env, or use Offline mode.")
+offline, local = ui.pick_mode(st)
+engine_ready = st.session_state["_engine_ready"]
 
 for b in state["banners"]:
     st.warning(b)
 
-if st.button("▶ Run morning briefing", type="primary", disabled=(not offline and not has_key)):
+if st.button("▶ Run morning briefing", type="primary", disabled=not engine_ready):
     # a fresh run starts from the original data so the demo is repeatable
     fresh = store.load_all()
     for k in ("leads", "clients", "messages", "outbox", "audit"):
         state[k] = fresh[k]
     state["ai_log"], state["sentiments"], state["banners"] = [], {}, []
-    ctx = Ctx(state, offline=offline)
+    ctx = Ctx(state, offline=offline, local=local)
     with st.status("Agent is working…", expanded=True) as status:
         def show(step: dict) -> None:
             args = ", ".join(f"{k}={v!r}" for k, v in step["args"].items() if k != "body")
@@ -67,7 +64,8 @@ if briefing:
     st.subheader("Prioritised to-do list")
     st.markdown(briefing["summary"])
     u = briefing["usage"]
-    st.caption(f"{len(briefing['steps'])} tool calls · {u['calls']} live API calls, "
+    st.caption(f"Engine: {briefing.get('engine', '?')} · {len(briefing['steps'])} tool calls · "
+               f"{u['calls']} live API calls, "
                f"{u['cached']} replayed from cache · {u['input']:,} tokens in / "
                f"{u['output']:,} out")
     with st.expander("Step trace"):
