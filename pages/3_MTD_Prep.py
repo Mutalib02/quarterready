@@ -9,7 +9,7 @@ load_dotenv()
 from qr import agent, cache, categorise as cz, categories, rules, store, ui  # noqa: E402
 from qr.tools import Ctx  # noqa: E402
 
-st.set_page_config(page_title="MTD Prep", page_icon="🧾", layout="wide")
+ui.chrome(st)
 state = store.init_state(st)
 
 st.title("MTD Prep – quarterly bank transactions")
@@ -85,8 +85,10 @@ view = pd.DataFrame({
 })
 view.insert(0, "row_id", df.row_id)
 
+row_bg = [ui.ROW_COLOURS[c] for c in df.colour]  # pale green / amber / red per row
+styled = view.style.apply(lambda r: [f"background-color: {row_bg[r.name]}"] * len(r), axis=1)
 edited = st.data_editor(
-    view, hide_index=True, use_container_width=True, height=520, key="mtd_editor",
+    styled, hide_index=True, use_container_width=True, height=520, key="mtd_editor",
     disabled=[c for c in view.columns if c not in ("Your box", "Decision")],
     column_config={
         "row_id": None,

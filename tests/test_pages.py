@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 
-@pytest.mark.parametrize("page", ["app.py", "pages/1_Win_Leads.py", "pages/2_Clients.py"])
+@pytest.mark.parametrize("page", ["views/today.py", "pages/1_Win_Leads.py", "pages/2_Clients.py"])
 def test_page_renders_without_exception(page):
     at = AppTest.from_file(str(ROOT / page), default_timeout=30).run()
     assert not at.exception
@@ -31,7 +31,7 @@ def test_today_briefing_and_approval_queue(tmp_path, monkeypatch):
     monkeypatch.setattr(agent, "_anthropic_call", fake_api)
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
 
-    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60).run()
+    at = AppTest.from_file(str(ROOT / "views/today.py"), default_timeout=60).run()
     assert not at.exception
     next(b for b in at.button if "Run morning briefing" in b.label).click().run()
     assert not at.exception
@@ -84,7 +84,7 @@ def test_today_briefing_with_local_engine(tmp_path, monkeypatch):
     monkeypatch.setattr(cache, "CACHE_DIR", tmp_path)
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
-    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
+    at = AppTest.from_file(str(ROOT / "views/today.py"), default_timeout=90).run()
     at.radio[0].set_value(ui.LOCAL).run()  # recorded/ may exist, so pick Local explicitly
     assert not at.exception and any("not Claude" in i.value for i in at.info)
     next(b for b in at.button if "Run morning briefing" in b.label).click().run()
@@ -97,7 +97,7 @@ def test_today_briefing_with_local_engine(tmp_path, monkeypatch):
 def test_recorded_engine_is_default_and_labelled(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: False)
-    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=90).run()
+    at = AppTest.from_file(str(ROOT / "views/today.py"), default_timeout=90).run()
     assert not at.exception
     assert at.radio[0].value == "Recorded by Claude (via Claude Code)"
     assert any("Claude output recorded via Claude Code today – live API mode needs a funded key"
@@ -115,3 +115,20 @@ def test_mtd_prep_and_evaluation_on_recorded_engine(monkeypatch):
     assert not at.exception
     assert "recorded via Claude Code" in at.session_state["mtd"]["engine"]
     assert int((at.session_state["mtd"]["df"].colour == "red").sum()) == 40
+
+
+def test_router_entrypoint_and_theme():
+    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=60).run()
+    assert not at.exception
+    cfg = (ROOT / ".streamlit" / "config.toml").read_text(encoding="utf-8")
+    assert 'primaryColor = "#0F766E"' in cfg and 'base = "light"' in cfg
+
+
+def test_brand_bar_and_pills_render():
+    from qr import ui
+
+    html = ui.pill("At risk", "at risk") + ui.pill("Blocked – no consent", "blocked")
+    assert "#DC2626" in html and "#64748B" in html and "🚫" in html
+    at = AppTest.from_file(str(ROOT / "pages/2_Clients.py"), default_timeout=60).run()
+    assert any("QuarterReady" in m.value and "SYNTHETIC – NOT REAL DATA" in m.value
+               for m in at.markdown)

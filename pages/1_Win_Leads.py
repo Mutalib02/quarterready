@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 
-from qr import rules, store
+from qr import rules, store, ui
 
-st.set_page_config(page_title="Win – Leads", page_icon="🎯", layout="wide")
+ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Win – Leads")
@@ -57,8 +57,10 @@ with left:
 with right:
     st.markdown(f"**MTD cohort:** {cohort_for(lead)}")
     if rules.can_market(lead):
+        st.markdown(ui.pill("OK to contact", "healthy"), unsafe_allow_html=True)
         st.success("OK to contact – they contacted us first or consented.")
     else:
+        st.markdown(ui.pill("Blocked – no consent", "blocked"), unsafe_allow_html=True)
         st.error("🚫 Do not contact – no consent (PECR). The agent cannot draft marketing "
                  "to this lead.")
     can_convert = rules.can_market(lead) and lead["status"] != "Won" \

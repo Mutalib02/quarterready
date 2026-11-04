@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 
-from qr import evaluate, store
+from qr import evaluate, store, ui
 
-st.set_page_config(page_title="Evaluation & Safety", page_icon="🛡️", layout="wide")
+ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Evaluation & Safety")

@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 
-from qr import rules, store
+from qr import rules, store, ui
 
-st.set_page_config(page_title="Clients", page_icon="👥", layout="wide")
+ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Clients")
@@ -52,7 +52,7 @@ with left:
                 f"records: {records_status(client)}")
     st.caption(client["notes"])
     h = store.client_health(state, client)
-    st.markdown(f"**Health score {h['score']} – {h['band']}**")
+    st.markdown(f"**Health score {h['score']}** {ui.band_pill(h['band'])}", unsafe_allow_html=True)
     if h["breakdown"]:
         for b in h["breakdown"]:
             st.write(f"{b['points']}: {b['reason']}")

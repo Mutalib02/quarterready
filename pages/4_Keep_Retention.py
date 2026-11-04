@@ -9,7 +9,7 @@ load_dotenv()
 from qr import agent, cache, rules, store, tools, ui  # noqa: E402
 from qr.tools import Ctx  # noqa: E402
 
-st.set_page_config(page_title="Keep – Retention", page_icon="🤝", layout="wide")
+ui.chrome(st)
 state = store.init_state(st)
 
 st.title("Keep – Retention")
@@ -39,7 +39,8 @@ with left:
     for c in flagged:
         h = health[c["id"]]
         with st.container(border=True):
-            st.markdown(f"**{c['name']}** – {BAND_ICON[h['band']]} {h['band']} ({h['score']})")
+            st.markdown(f"**{c['name']}** {ui.band_pill(h['band'])} score {h['score']}",
+                        unsafe_allow_html=True)
             for b in h["breakdown"]:
                 st.write(f"{b['points']}: {b['reason']}")
             msgs = [m for m in state["messages"] if m["client_id"] == c["id"]]
