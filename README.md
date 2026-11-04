@@ -14,8 +14,6 @@ Demo uses Claude output recorded via Claude Code (no API credit today); Live mod
 
 All data is synthetic (`SYNTHETIC – NOT REAL DATA`). Nothing is ever sent, and nothing is ever filed with HMRC.
 
-![Today](docs/today.png)
-
 ---
 
 ## The problem
@@ -92,7 +90,6 @@ Measured on the **Evaluation & Safety** page against labelled data, using Claude
 - **Break-even at 87 practices** (two founders paid at the National Living Wage); 50 practices with one founder paid.
 - **At 100 practices: £9,900 per month revenue** (about £118,800 ARR).
 - **£30k funding**: £5k founder money plus a £25k Start Up Loan at 7.5% fixed.
-- Model: [docs/QuarterReady_Financial_Model.xlsx](docs/QuarterReady_Financial_Model.xlsx)
 
 ## Engines
 
@@ -117,11 +114,7 @@ streamlit run app.py
 
 ## Team
 
-- **Mutalib** – founder, domain lead (36 months' finance experience in banking, working towards ACCA, founder of Qistas Accountants Ltd)
-- **[Name]** – AI/agent engineering
-- **[Name]** – frontend & UI
-- **[Name]** – data, QA & deployment
-- **[Name]** – business & pitch
+- **Mutalib** – founder, domain lead (36 months' finance experience in banking, working towards ACCA, founder of Qistas Accountants Ltd). Built solo in one afternoon with Claude Code.
 
 ## Licence
 
