@@ -299,7 +299,9 @@ def _plan(messages: list) -> dict:
             body = r["body"]
             q = quotes.get(a["lead_id"])
             if q:
-                body += (f"\n\nP.S. Fixed fee: £{q['monthly_total']} a month. {q['wording']}")
+                head, sep, tail = body.rpartition("\n\nKind regards,")
+                note = f"\n\nFixed fee: £{q['monthly_total']} a month. {q['wording']}"
+                body = head + note + sep + tail if sep else body + note
             calls.append(_call(turn, n, "queue_for_approval", recipient_id=a["lead_id"],
                                channel="email", subject=r["subject"], body=body,
                                reason=f"{assessed[a['lead_id']]['priority']} priority lead: "
