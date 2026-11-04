@@ -1,0 +1,332 @@
+[
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C001",
+    "name": "Dave Hartley (fictional)",
+    "type": "sole_trader",
+    "trade": "Electrician",
+    "town": "Sunderland",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-12",
+      "queries_open": 1,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-30",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 62000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 9,
+    "notes": "Q2 records received; bank CSV on file."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C002",
+    "name": "Priya Rentwell (fictional)",
+    "type": "landlord",
+    "trade": "Residential landlord (Heaton)",
+    "town": "Newcastle upon Tyne",
+    "mtd_cohort": "2026",
+    "monthly_fee": 40,
+    "services": [
+      "landlord_1_2"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": null,
+      "queries_open": 4,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-20",
+    "fee_overrun_hours": 1,
+    "turnover_last_12m": 0,
+    "property_income": 58000,
+    "property_income_rising": true,
+    "nps": 7,
+    "notes": "Records three weeks late; unhappy about repeated requests."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C003",
+    "name": "Mark Spannerman (fictional)",
+    "type": "sole_trader",
+    "trade": "Mobile mechanic",
+    "town": "Gateshead",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-10",
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-28",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 86000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 9,
+    "notes": "Turnover rising quickly."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C004",
+    "name": "Jo Onboardley (fictional)",
+    "type": "sole_trader",
+    "trade": "Decorator",
+    "town": "Durham",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": false,
+      "aml_risk_assessment": false,
+      "hmrc_agent_authorised": false
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": null,
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-25",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 55000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": null,
+    "notes": "New client; ID not yet verified."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C005",
+    "name": "Hannah Hedgerow (fictional)",
+    "type": "sole_trader",
+    "trade": "Gardener",
+    "town": "Hexham",
+    "mtd_cohort": "2027",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-15",
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-22",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 36000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 8,
+    "notes": "2027 cohort; needs MTD software set-up before April 2027."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C006",
+    "name": "Ian Plasterton (fictional)",
+    "type": "sole_trader",
+    "trade": "Plasterer",
+    "town": "Middlesbrough",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-08",
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-11-01",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 71000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 10,
+    "notes": "Easy client."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C007",
+    "name": "Beth Cakewell (fictional)",
+    "type": "sole_trader",
+    "trade": "Baker",
+    "town": "Durham",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-11-03",
+      "queries_open": 2,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-09-12",
+    "fee_overrun_hours": 4,
+    "turnover_last_12m": 55000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 6,
+    "notes": "Slow with records; fee overrun this quarter."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C008",
+    "name": "Omar Taxiton (fictional)",
+    "type": "sole_trader",
+    "trade": "Private hire driver",
+    "town": "Sunderland",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-13",
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-27",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 58000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 8,
+    "notes": "Reliable."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C009",
+    "name": "Fiona Letsby (fictional)",
+    "type": "landlord",
+    "trade": "Landlord (2 properties)",
+    "town": "Gateshead",
+    "mtd_cohort": "2027",
+    "monthly_fee": 40,
+    "services": [
+      "landlord_1_2"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-16",
+      "queries_open": 1,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-18",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 0,
+    "property_income": 41000,
+    "property_income_rising": true,
+    "nps": 7,
+    "notes": "Rental income increasing."
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "C010",
+    "name": "Colin Roofe (fictional)",
+    "type": "sole_trader",
+    "trade": "Roofer",
+    "town": "Hexham",
+    "mtd_cohort": "2026",
+    "monthly_fee": 45,
+    "services": [
+      "mtd_sole_trader"
+    ],
+    "onboarding": {
+      "engagement_letter": true,
+      "id_verified": true,
+      "aml_risk_assessment": true,
+      "hmrc_agent_authorised": true
+    },
+    "quarter_status": {
+      "period": "Q2 2026/27 (6 Jul – 5 Oct)",
+      "records_due": "2026-10-14",
+      "records_received": "2026-10-14",
+      "queries_open": 0,
+      "summary_signed_off": false
+    },
+    "last_contact_date": "2026-10-29",
+    "fee_overrun_hours": 0,
+    "turnover_last_12m": 52000,
+    "property_income": 0,
+    "property_income_rising": false,
+    "nps": 9,
+    "notes": "Solid."
+  }
+]

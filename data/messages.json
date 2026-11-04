@@ -1,0 +1,83 @@
+[
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M001",
+    "client_id": "C002",
+    "date": "2026-10-28",
+    "direction": "inbound",
+    "text": "Third time I've been asked for the same statement. Thinking of moving to someone cheaper.",
+    "sentiment_seed": "negative"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M002",
+    "client_id": "C002",
+    "date": "2026-10-20",
+    "direction": "inbound",
+    "text": "I've already sent the March statement. Can you check your emails please?",
+    "sentiment_seed": "neutral"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M003",
+    "client_id": "C001",
+    "date": "2026-10-30",
+    "direction": "inbound",
+    "text": "Thanks, all received. Quick question about the van - is it claimable?",
+    "sentiment_seed": "positive"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M004",
+    "client_id": "C003",
+    "date": "2026-10-28",
+    "direction": "inbound",
+    "text": "Business is mad busy this year, hit £80k already!",
+    "sentiment_seed": "positive"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M005",
+    "client_id": "C004",
+    "date": "2026-10-25",
+    "direction": "inbound",
+    "text": "Sending my passport scans tomorrow, sorry for the delay.",
+    "sentiment_seed": "neutral"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M006",
+    "client_id": "C005",
+    "date": "2026-10-22",
+    "direction": "inbound",
+    "text": "Do I need to buy software yet or can it wait?",
+    "sentiment_seed": "neutral"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M007",
+    "client_id": "C007",
+    "date": "2026-09-12",
+    "direction": "inbound",
+    "text": "Yeah fine, I'll dig the receipts out when I get a minute.",
+    "sentiment_seed": "neutral"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M008",
+    "client_id": "C009",
+    "date": "2026-10-18",
+    "direction": "inbound",
+    "text": "One query about the new flat's mortgage interest.",
+    "sentiment_seed": "neutral"
+  },
+  {
+    "synthetic": "SYNTHETIC – NOT REAL DATA",
+    "id": "M009",
+    "client_id": "C006",
+    "date": "2026-11-01",
+    "direction": "inbound",
+    "text": "Brilliant service as ever.",
+    "sentiment_seed": "positive"
+  }
+]

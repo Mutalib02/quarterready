@@ -1,0 +1,25 @@
+{
+  "synthetic": "SYNTHETIC – NOT REAL DATA",
+  "name": "Qistas Accountants (demo)",
+  "partner": "Demo Accountant",
+  "town": "Newcastle upon Tyne",
+  "tone": "warm, plain English, no jargon, sign off with first name",
+  "price_list": {
+    "mtd_sole_trader": {
+      "label": "MTD quarterly + year-end, sole trader",
+      "monthly": 45
+    },
+    "landlord_1_2": {
+      "label": "Landlord, 1–2 properties",
+      "monthly": 40
+    },
+    "bookkeeping": {
+      "label": "Bookkeeping add-on",
+      "monthly": 25
+    },
+    "vat_returns": {
+      "label": "VAT returns",
+      "monthly": 30
+    }
+  }
+}
