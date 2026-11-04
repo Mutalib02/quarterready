@@ -65,7 +65,7 @@ def test_offline_cache_miss_raises(tmp_cache):
 
 
 def test_step_limit(tmp_cache):
-    def loop_forever(model, system, messages, tools, max_tokens):
+    def loop_forever(model, system, messages, tools, max_tokens, tool_choice=None):
         return {"content": [{"type": "tool_use", "id": f"t{len(messages)}",
                              "name": "list_new_leads", "input": {}}],
                 "stop_reason": "tool_use", "usage": {"input_tokens": 1, "output_tokens": 1}}

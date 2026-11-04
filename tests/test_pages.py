@@ -43,3 +43,29 @@ def test_today_briefing_and_approval_queue(tmp_path, monkeypatch):
     assert len([b for b in at.button if b.label.endswith("Approve")]) == 1
     assert at.session_state["outbox"][0]["status"] == "approved"
     assert at.session_state["leads"][0]["status"] == "Replied"
+
+
+def _fake_categorise_env(tmp_path, monkeypatch):
+    sys.path.insert(0, str(ROOT / "tests"))
+    from test_categorise import fake_complete_factory
+
+    from qr import agent, cache
+
+    complete, _ = fake_complete_factory()
+    monkeypatch.setattr(cache, "CACHE_DIR", tmp_path)
+    monkeypatch.setattr(agent, "make_complete", lambda ctx, **k: complete)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key-not-real")
+
+
+def test_mtd_prep_gate_and_export(tmp_path, monkeypatch):
+    _fake_categorise_env(tmp_path, monkeypatch)
+    at = AppTest.from_file(str(ROOT / "pages/3_MTD_Prep.py"), default_timeout=90).run()
+    assert not at.exception
+    next(b for b in at.button if b.label == "Categorise with Claude").click().run()
+    assert not at.exception
+    df = at.session_state["mtd"]["df"]
+    red = int((df.colour == "red").sum())
+    assert red >= 3  # van, duplicate refunds, ...
+    # red rows unresolved + no reviewer -> export locked
+    assert any("Export is locked" in i.value for i in at.info)
+    assert at.session_state["mtd"]["decisions"] == {}

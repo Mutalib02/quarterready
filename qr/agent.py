@@ -25,7 +25,7 @@ Goal of the morning briefing, in this order:
 and is High or Medium priority, draft a reply, build a quote (High priority only) and queue \
 the drafts for approval. Do not draft anything for Low priority or blocked leads.
 2. Protect this week's MTD deadlines: list_deadlines, and chase records for clients who are \
-missing them.
+missing them, and run prep_mtd_quarter for clients who have sent records and have a bank CSV.
 3. Protect at-risk clients: check client_health for clients with open queries, late records or \
 recent messages; for At risk clients draft a retention message and queue it.
 4. Surface opportunities with find_opportunities.
@@ -56,9 +56,12 @@ def make_complete(ctx: Ctx, model: str = MODEL, api_call: Callable | None = None
     """Build the cached completion function. `api_call(model, system, messages, tools,
     max_tokens)` can be injected for tests."""
 
-    def complete(system: str, messages: list, tools: list | None, max_tokens: int = 1500) -> dict:
+    def complete(system: str, messages: list, tools: list | None, max_tokens: int = 1500,
+                 tool_choice: dict | None = None) -> dict:
         payload = {"system": system, "messages": messages, "tools": tools,
                    "max_tokens": max_tokens}
+        if tool_choice:
+            payload["tool_choice"] = tool_choice
         key = cache.make_key(model, payload)
         hit = cache.get(key)
         if hit is not None:
@@ -70,14 +73,18 @@ def make_complete(ctx: Ctx, model: str = MODEL, api_call: Callable | None = None
         last: Exception | None = None
         for attempt in range(2):  # retry once
             try:
-                resp = call(model, system, messages, tools, max_tokens)
+                resp = call(model, system, messages, tools, max_tokens, tool_choice)
                 break
             except Exception as exc:  # noqa: BLE001 - API errors vary
                 last = exc
+                if getattr(exc, "status_code", None) in (400, 401, 403, 404):
+                    break  # not transient (e.g. billing, bad key): retrying won't help
                 time.sleep(1)
         else:
-            ctx.banners.append("Claude API error – switch to offline mode to replay the cache.")
-            raise RuntimeError(f"Claude API failed twice: {type(last).__name__}") from last
+            detail = getattr(last, "message", None) or type(last).__name__
+            ctx.banners.append(f"Claude API error ({detail}) – switch to Offline mode to replay "
+                               f"the cache.")
+            raise RuntimeError(f"Claude API failed: {detail}") from last
         ctx.usage["calls"] += 1
         ctx.usage["input"] += resp["usage"]["input_tokens"]
         ctx.usage["output"] += resp["usage"]["output_tokens"]
@@ -87,13 +94,15 @@ def make_complete(ctx: Ctx, model: str = MODEL, api_call: Callable | None = None
     return complete
 
 
-def _anthropic_call(model, system, messages, tools, max_tokens) -> dict:
+def _anthropic_call(model, system, messages, tools, max_tokens, tool_choice=None) -> dict:
     import anthropic  # imported lazily so offline mode needs no key
 
     client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY; never logged
     kwargs = {"model": model, "max_tokens": max_tokens, "system": system, "messages": messages}
     if tools:
         kwargs["tools"] = tools
+    if tool_choice:
+        kwargs["tool_choice"] = tool_choice
     return _to_plain(client.messages.create(**kwargs))
 
 

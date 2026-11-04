@@ -32,7 +32,7 @@ def _tool_results(messages):
     return out
 
 
-def fake_api(model, system, messages, tools, max_tokens):
+def fake_api(model, system, messages, tools, max_tokens, tool_choice=None):
     if not tools:  # inner structured-output calls
         prompt = messages[-1]["content"]
         if "Assess this enquiry" in prompt:

@@ -207,6 +207,26 @@ def chase_records(ctx: Ctx, client_id: str) -> dict:
     return {"client_id": client_id, "subject": d.subject, "body": d.body}
 
 
+def prep_mtd_quarter(ctx: Ctx, client_id: str) -> dict:
+    """Categorise the client's bank CSV into SA103 boxes (via categorise.py)."""
+    from qr import categorise  # local import: categorise depends on agent, which imports tools
+
+    c = _client(ctx, client_id)
+    if not c:
+        return {"error": f"unknown client {client_id}"}
+    path = categorise.DATA / "transactions" / f"{c['name'].split()[0].lower()}_q2_2026.csv"
+    if not path.exists():
+        return {"error": f"no bank CSV on file for {client_id}"}
+    df = categorise.run_for_client(ctx, client_id, path)
+    ctx.state.setdefault("categorised", {})[client_id] = df.to_dict("records")
+    summary = categorise.summarise(df, {})
+    return {"client_id": client_id, "rows": len(df),
+            "green": int((df.colour == "green").sum()), "amber": int((df.colour == "amber").sum()),
+            "red": int((df.colour == "red").sum()), "turnover": summary["turnover"],
+            "expenses_by_box": summary["boxes"],
+            "client_questions": categorise.client_questions(df)[:5]}
+
+
 def client_health(ctx: Ctx, client_id: str) -> dict:
     c = _client(ctx, client_id)
     if not c:
@@ -304,6 +324,10 @@ TOOL_SPECS = [
      "records status.", _schema({"days_ahead": {"type": "integer"}}), list_deadlines),
     ("chase_records", "Draft a polite records reminder for a client. Then call "
      "queue_for_approval.", _schema({"client_id": _S}), chase_records),
+    ("prep_mtd_quarter", "Categorise a client's quarterly bank CSV into HMRC SA103 boxes with "
+     "confidence scores. Returns totals, counts of green/amber/red rows and draft client "
+     "questions. The accountant reviews and signs off on the MTD Prep page.",
+     _schema({"client_id": _S}), prep_mtd_quarter),
     ("client_health", "Health score, band and breakdown for a client.",
      _schema({"client_id": _S}), client_health),
     ("find_opportunities", "Clients with opportunities (VAT threshold, 2027 MTD cohort, "
@@ -346,6 +370,9 @@ def summarise(name: str, result: dict) -> str:
         d = result["deadline"]
         return (f"{d['quarter']} due in {d['days_left']} days; {len(result['clients'])} clients"
                 if d else "No deadlines in range")
+    if name == "prep_mtd_quarter":
+        return (f"{result['rows']} rows: {result['green']} green, {result['amber']} amber, "
+                f"{result['red']} red")
     if name == "client_health":
         return f"{result['score']} ({result['band']}), sentiment {result['sentiment']}"
     if name == "find_opportunities":
