@@ -118,7 +118,7 @@
     },
     "quarter_status": {
       "period": "Q2 2026/27 (6 Jul – 5 Oct)",
-      "records_due": "2026-10-14",
+      "records_due": null,
       "records_received": null,
       "queries_open": 0,
       "summary_signed_off": false
@@ -222,12 +222,12 @@
       "queries_open": 2,
       "summary_signed_off": false
     },
-    "last_contact_date": "2026-09-12",
+    "last_contact_date": "2026-10-20",
     "fee_overrun_hours": 4,
     "turnover_last_12m": 55000,
     "property_income": 0,
     "property_income_rising": false,
-    "nps": 6,
+    "nps": 7,
     "notes": "Slow with records; fee overrun this quarter."
   },
   {
